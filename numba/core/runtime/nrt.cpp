@@ -1,6 +1,7 @@
 /* MSVC C99 doesn't have <stdatomic.h>, else this could be written in easily
  * in C */
 #include <atomic>
+#include <algorithm>
 
 #ifdef _MSC_VER
 #include <inttypes.h>
@@ -301,6 +302,7 @@ void *nrt_allocate_meminfo_and_data_align(size_t size, unsigned align,
 {
     size_t offset = 0, intptr = 0, remainder = 0;
     NRT_Debug(nrt_debug_print("nrt_allocate_meminfo_and_data_align %p\n", allocator));
+    align = std::max({align, (unsigned)sizeof(void*), 16u});
     char *base = (char *)nrt_allocate_meminfo_and_data(size + 2 * align, mi, allocator);
     if (base == NULL) {
         return NULL; /* return early as allocation failed */
