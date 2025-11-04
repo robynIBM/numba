@@ -6,6 +6,7 @@ import math
 import operator
 import sys
 import numpy as np
+import platform
 
 import llvmlite.ir
 from llvmlite.ir import Constant
@@ -280,6 +281,9 @@ def frexp_impl(context, builder, sig, args):
 def ldexp_impl(context, builder, sig, args):
     val, exp = args
     fltty, intty = map(context.get_data_type, sig.args)
+    if platform.machine() == "s390x":
+        intty = ir.IntType(64)
+        exp = build.sext(exp, ir.IntType(64))
     fnty = llvmlite.ir.FunctionType(fltty, (fltty, intty))
     fname = {
         "float": "numba_ldexpf",

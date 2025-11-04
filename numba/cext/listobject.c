@@ -778,7 +778,8 @@ numba_test_list(void) {
             case 8:  CHECK(lp->allocated == 8); break;
             case 16: CHECK(lp->allocated == 16); break;
         }
-        status = numba_list_append(lp, (const char*)&i);
+        unsigned char j = (unsigned char)i;
+        status = numba_list_append(lp, (const char*)&j);
         CHECK(status == LIST_OK);
         switch(i) {
             // Check that the growth happened accordingly
@@ -833,7 +834,8 @@ numba_test_list(void) {
     CHECK(lp->size == 0);
     CHECK(lp->allocated == 0);
     for (i = 0; i < 17 ; i++) {
-        status = numba_list_append(lp, (const char*)&i);
+        unsigned char j = (unsigned char)i;
+        status = numba_list_append(lp, (const char*)&j);
         CHECK(status == LIST_OK);
     }
     CHECK(lp->size == 17);
@@ -892,7 +894,8 @@ numba_test_list(void) {
     CHECK(lp->size == 0);
     CHECK(lp->allocated == 0);
     for (i = 0; i < 17 ; i++) {
-        status = numba_list_append(lp, (const char*)&i);
+        unsigned char j = (unsigned char)i;
+        status = numba_list_append(lp, (const char*)&j);
         CHECK(status == LIST_OK);
     }
     CHECK(lp->size == 17);
@@ -942,7 +945,8 @@ numba_test_list(void) {
     CHECK(lp->size == 0);
     CHECK(lp->allocated == 0);
     for (i = 0; i < 17 ; i++) {
-        status = numba_list_append(lp, (const char*)&i);
+        unsigned char j = (unsigned char)i;
+        status = numba_list_append(lp, (const char*)&j);
         CHECK(status == LIST_OK);
     }
     CHECK(lp->size == 17);
@@ -954,7 +958,8 @@ numba_test_list(void) {
 
     // refill list
     for (i = 0; i < 17 ; i++) {
-        status = numba_list_append(lp, (const char*)&i);
+        unsigned char j = (unsigned char)i;
+        status = numba_list_append(lp, (const char*)&j);
         CHECK(status == LIST_OK);
     }
 
