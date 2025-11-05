@@ -1,6 +1,7 @@
 /* MSVC C99 doesn't have <stdatomic.h>, else this could be written in easily
  * in C */
 #include <atomic>
+#include <algorithm>
 
 #ifdef _MSC_VER
 #include <inttypes.h>
@@ -15,10 +16,6 @@
     #define IS_S390X_ARCH 1
 #else
     #define IS_S390X_ARCH 0
-#endif
-
-#if IS_S390X_ARCH
-    #include <algorithm>
 #endif
 
 /* NOTE: if changing the layout, please update numba.core.runtime.atomicops */
