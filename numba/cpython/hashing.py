@@ -449,6 +449,9 @@ def _build_hashsecret():
         ll.add_symbol(symbol_name, addr)
         info[name] = _hashsecret_entry(symbol=symbol_name, value=val)
 
+    # On s390x, the _Py_HashSecret struct is stored in big-endian
+    # order. Numba expects the values in little-endian format,
+    # so we must byte-swap manually
     if platform.machine() == "s390x":
         raw_bytes = bytes(pyhashsecret.uc)
         inject('siphash_k0', int.from_bytes(raw_bytes[0:8], byteorder='little'))

@@ -778,6 +778,10 @@ numba_test_list(void) {
             case 8:  CHECK(lp->allocated == 8); break;
             case 16: CHECK(lp->allocated == 16); break;
         }
+
+        // Store as unsigned char to avoid endianness differences
+        // Only the first byte is used later, so using a single byte ensures 
+        // consistent behaviour across little and big-endian architectures
         unsigned char j = (unsigned char)i;
         status = numba_list_append(lp, (const char*)&j);
         CHECK(status == LIST_OK);

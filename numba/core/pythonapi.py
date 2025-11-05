@@ -982,6 +982,11 @@ class PythonAPI(object):
         Refer to Python source Include/object.h for macros definition
         of the opid.
         """
+
+        """
+        s390x requires 64-bit ints because the ABI does not guarantee upper-bit clearing
+        when using 32-bit values. Using IntType(64) ensures the upper bit are cleared.
+        """
         ir_intty = ir.IntType(64) if platform.machine() == "s390x" else ir.IntType(32)
         intty = types.int64 if platform.machine() == "s390x" else types.int32
         ops = ['<', '<=', '==', '!=', '>', '>=']
@@ -1222,6 +1227,10 @@ class PythonAPI(object):
     def nrt_adapt_ndarray_to_python(self, aryty, ary, dtypeptr):
         assert self.context.enable_nrt, "NRT required"
 
+        """
+        s390x requires 64-bit ints because the ABI does not guarantee upper-bit clearing 
+        when using 32-bit values. Using IntType(64) ensures the upper bit are cleared.
+        """
         intty = ir.IntType(64) if platform.machine() == "s390x" else ir.IntType(32)
         int_size = types.int64 if platform.machine() == "s390x" else types.int32
         # Embed the Python type of the array (maybe subclass) in the LLVM IR.
@@ -1362,6 +1371,11 @@ class PythonAPI(object):
         Unserialize some data.  *structptr* should be a pointer to
         a {i8* data, i32 length, i8* hashbuf, i8* func_ptr, i32 alloc_flag}
         structure.
+        """
+
+        """
+        s390x requires 64-bit ints because the ABI does not guarantee upper-bit clearing
+        when using 32-bit values. Using IntType(64) ensures the upper bit are cleared.
         """
         intty = ir.IntType(64) if platform.machine() == "s390x" else ir.IntType(32)
         fnty = ir.FunctionType(self.pyobj,
